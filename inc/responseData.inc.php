@@ -1,5 +1,5 @@
 <?php
-class Response
+class ResponseData
 {
     public const SUCCESSFUL_RESULT = ['result' => 'Success'];
     public const BAD_REQUEST = ['error' => 'Bad Request'];

@@ -11,7 +11,11 @@ class Config
     public const TYPE_REPOSITORY = 'Task'; 
     public const ID_TASK = 'id_task';
     public const IS_DONE = 'is_done';
+    public const TASK_NAME = 'task_name';
+    public const TASK_TEXT = 'task_text';
     public const TASK_IS_DONE = 1;
     public const TASK_IS_NOT_COMPLETED = 0;
     public const COLUMN_NAMES = ['task_name', 'task_text', 'is_done'];
+
+   
 }
