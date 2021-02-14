@@ -16,6 +16,4 @@ class Config
     public const TASK_IS_DONE = 1;
     public const TASK_IS_NOT_COMPLETED = 0;
     public const COLUMN_NAMES = ['task_name', 'task_text', 'is_done'];
-
-   
 }
