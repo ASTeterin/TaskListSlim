@@ -11,4 +11,12 @@ class TaskController
         return $result;
     }
 
+    public static function addNewTask($taskData): ?int
+    {
+        $database = new Database();
+        $db = $database->getConnection();
+        $task = RepositoryFactory::build(Config::TYPE_REPOSITORY, $db);
+        $result = $task->add($taskData);
+        return $result;
+    }
 }

@@ -32,7 +32,6 @@ class TaskRepository
 
     public function update($id, $data): ?int 
     {
-        //$data = ['is_done' => Config::TASK_IS_DONE];
         $this->db->where(Config::ID_TASK, $id);
         return ($this->db->update(Config::TABLE, $data))? $id : null;
     }
