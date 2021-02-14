@@ -15,9 +15,3 @@ function checkAddRequest($data): int
     }
     return TaskError::ERR_NO_ERROR;   
 }
-
-function getDataFromRequest(): ?array 
-{
-    $data = json_decode(file_get_contents("php://input"), true);
-    return $data;
-}

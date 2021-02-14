@@ -1,11 +1,14 @@
 <?php 
+
 require_once('../vendor/autoload.php'); 
 require_once('db.inc.php');
 require_once('taskRepository.inc.php');
 require_once('error.inc.php');
 require_once('config.inc.php');
 require_once('request.inc.php');
-require_once('responseData.inc.php');
+require_once('responseConfig.inc.php');
 require_once('repositoryFactory.inc.php');
+require_once('taskController.inc.php');
+
 
 

@@ -11,4 +11,6 @@ class Database {
     {
         return new MysqliDb($this->host, $this->username, $this->password, $this->db_name);
     }
+
+    
 }

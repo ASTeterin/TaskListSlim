@@ -10,9 +10,9 @@ class TaskRepository
         $this->db = $db;     
     }
 
-    public function getTasksByIsDone($isDone): ?array 
+    public function getTasksByValue($column, $value): ?array 
     {
-        $this->db->where(Config::IS_DONE, $isDone);
+        $this->db->where($column, $value);
         $task = $this->db->get($this->tableName);
         return (isset($task)) ? $task : null; 
     }
@@ -30,9 +30,9 @@ class TaskRepository
 
     }
 
-    public function makeDone($id): ?int 
+    public function update($id, $data): ?int 
     {
-        $data = ['is_done' => Config::TASK_IS_DONE];
+        //$data = ['is_done' => Config::TASK_IS_DONE];
         $this->db->where(Config::ID_TASK, $id);
         return ($this->db->update(Config::TABLE, $data))? $id : null;
     }
