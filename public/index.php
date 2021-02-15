@@ -3,16 +3,15 @@ use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 require_once('../inc/common.inc.php');
 
-
 $app = new \Slim\App();
 
-$app->get('/task/complitedTask', function(Request $request, Response $response) 
+$app->get('/task/complited', function(Request $request, Response $response) 
 {
     $result = TaskController::getDataByIsDone(Config::TASK_IS_DONE);
     return $response->withJson($result,200);
 });
 
-$app->get('/task/unfinishedTask', function(Request $request, Response $response) 
+$app->get('/task/unfinished', function(Request $request, Response $response) 
 {
     $result = TaskController::getDataByIsDone(Config::TASK_IS_NOT_COMPLETED);
     return $response->withJson($result,200);
@@ -46,7 +45,7 @@ $app->get('/task/delete/{id}', function (Request $request, Response $response)
     return (isset($result))? $response->withJson(ResponseConfig::SUCCESSFUL_RESULT,200): $response->withJson(ResponseConfig::SERVER_ERROR,500);    
 });
 
-$app->get('/task/makeDone/{id}', function (Request $request, Response $response) 
+$app->get('/task/complete/{id}', function (Request $request, Response $response) 
 {
     $idTask = $request->getAttribute('id');
     $database = new Database();

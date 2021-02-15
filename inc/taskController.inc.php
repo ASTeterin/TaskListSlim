@@ -2,7 +2,7 @@
 
 class TaskController
 {
-    public static function getDataByIsDone($isDone): ?array
+    public static function getDataByIsDone(int $isDone): ?array
     {
         $database = new Database();
         $db = $database->getConnection();
@@ -11,7 +11,7 @@ class TaskController
         return $result;
     }
 
-    public static function addNewTask($taskData): ?int
+    public static function addNewTask(array $taskData): ?int
     {
         $database = new Database();
         $db = $database->getConnection();

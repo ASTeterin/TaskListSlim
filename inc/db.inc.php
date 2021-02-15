@@ -10,7 +10,5 @@ class Database {
     public function getConnection()
     {
         return new MysqliDb($this->host, $this->username, $this->password, $this->db_name);
-    }
-
-    
+    }  
 }
