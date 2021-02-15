@@ -1,6 +1,6 @@
 <?php
 
-function checkAddRequest($data): int 
+function checkAddRequest(array $data): int 
 {
     foreach($data as $key => $value) 
     {
