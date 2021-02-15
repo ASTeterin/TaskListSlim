@@ -5,7 +5,7 @@ require_once('../inc/common.inc.php');
 
 $app = new \Slim\App();
 
-$app->get('/task/complited', function(Request $request, Response $response) 
+$app->get('/task/complited', function (Request $request, Response $response) 
 {
     $database = new Database();
     $db = $database->getConnection();
@@ -14,7 +14,7 @@ $app->get('/task/complited', function(Request $request, Response $response)
     return $response->withJson($result, 200);
 });
 
-$app->get('/task/unfinished', function(Request $request, Response $response) 
+$app->get('/task/unfinished', function (Request $request, Response $response) 
 {
     $database = new Database();
     $db = $database->getConnection();
@@ -23,7 +23,7 @@ $app->get('/task/unfinished', function(Request $request, Response $response)
     return $response->withJson($result, 200);
 });
 
-$app->post('/task/add', function(Request $request, Response $response)
+$app->post('/task/add', function (Request $request, Response $response)
 {
     $requestData = $request->getParsedBody();
     if (checkAddRequest($requestData) <> TaskError::ERR_NO_ERROR) 
