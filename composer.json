@@ -1,6 +1,7 @@
 {
     "require": {
         "slim/slim": "3.*",
-        "thingengineer/mysqli-database-class": "dev-master"
+        "thingengineer/mysqli-database-class": "dev-master",
+	"mnapoli/php-di": "~3.5"
     }
 }
