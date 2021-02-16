@@ -5,7 +5,8 @@ use Slim\Factory\AppFactory;
 require_once('../inc/common.inc.php');
 
 //$app = new \Slim\App();
-$app = AppFactory::create();
+//$app = AppFactory::create();
+$app = \DI\Bridge\Slim\Bridge::create();
 
 $app->get('/hello', function (ServerRequest $request, Response $response) {
     $response->getBody()->write('Hello World');
@@ -49,19 +50,28 @@ $app->post('/task/add', function (Request $request, Response $response)
 });
 
 
-$app->get('/task/delete/{id}', function (Request $request, Response $response) 
+
+$app->get('/task/delete/{idTask}', function ($idTask, Response $response) 
 {
-    $idTask = $request->getAttribute('id');
     $database = new Database();
     $db = $database->getConnection();
     $taskRepository = new TaskRepository($db);
     if (!$taskRepository->getTaskById($idTask)) 
     {
-        return $response->withJson(ResponseConfig::NO_TASK, 404);   
+        $response->getBody()->write(json_encode(ResponseConfig::NO_TASK));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(404);
     }
     $result = $taskRepository->delete($idTask);
-
-    return (isset($result))? $response->withJson(ResponseConfig::SUCCESSFUL_RESULT, 200): $response->withJson(ResponseConfig::SERVER_ERROR, 500);    
+    if (isset($result))
+    {
+        $response->getBody()->write(json_encode(ResponseConfig::SUCCESSFUL_RESULT));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(200);    
+    }
+    else
+    {
+        $response->getBody()->write(json_encode(ResponseConfig::SERVER_ERROR));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(500);       
+    }    
 });
 
 $app->get('/task/complete/{id}', function (Request $request, Response $response) 
