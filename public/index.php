@@ -1,17 +1,25 @@
 <?php
-use \Psr\Http\Message\ServerRequestInterface as Request;
-use \Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
+use Slim\Factory\AppFactory;
 require_once('../inc/common.inc.php');
 
-$app = new \Slim\App();
+//$app = new \Slim\App();
+$app = AppFactory::create();
+
+$app->get('/hello', function (ServerRequest $request, Response $response) {
+    $response->getBody()->write('Hello World');
+    return $response;
+});
 
 $app->get('/task/complited', function (Request $request, Response $response) 
 {
     $database = new Database();
     $db = $database->getConnection();
     $taskRepository = new TaskRepository($db);
-    $result = $taskRepository->getTasksByValue(Config::IS_DONE, Config::TASK_IS_DONE);
-    return $response->withJson($result, 200);
+    $complitedTasks = $taskRepository->getTasksByValue(Config::IS_DONE, Config::TASK_IS_DONE);
+    $response->getBody()->write(json_encode($complitedTasks));
+    return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
 });
 
 $app->get('/task/unfinished', function (Request $request, Response $response) 
@@ -19,13 +27,15 @@ $app->get('/task/unfinished', function (Request $request, Response $response)
     $database = new Database();
     $db = $database->getConnection();
     $taskRepository = new TaskRepository($db);
-    $result = $taskRepository->getTasksByValue(Config::IS_DONE, Config::TASK_IS_NOT_COMPLETED);
-    return $response->withJson($result, 200);
+    $unfinishedTasks = $taskRepository->getTasksByValue(Config::IS_DONE, Config::TASK_IS_NOT_COMPLETED);
+    $response->getBody()->write(json_encode($unfinishedTasks));
+    return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
 });
 
 $app->post('/task/add', function (Request $request, Response $response)
 {
     $requestData = $request->getParsedBody();
+    echo $requestData;
     if (checkAddRequest($requestData) <> TaskError::ERR_NO_ERROR) 
     {
         return $response->withJson(ResponseConfig::BAD_REQUEST, 400);      
