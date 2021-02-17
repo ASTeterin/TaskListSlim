@@ -2,12 +2,12 @@
 
 class TaskRepository 
 {
-    private $db = null;
+    public $db;
     private $tableName = Config::TABLE;
 
-    public function __construct($db) 
+    public function __construct(Database $database) 
     {
-        $this->db = $db;     
+        $this->db = $database->db;     
     }
 
     public function getTasksByValue(string $column, $value): ?array 

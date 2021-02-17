@@ -3,21 +3,22 @@
 class TaskController
 {
     private $taskRepository;
+    private $db;
+    private $database;
 
-    public function __construct(TaskRepository $taskRepository)
+    public function __construct(TaskRepository $taskRepository, Database $database)
     {
         $this->taskRepository = $taskRepository;
     }
 
-    public function delete($request, $response)
+    public function delete($id, $response)
     {
-        //$taskRepository = $tasController->taskRepository;
-        if (!$this->taskRepository->getTaskById($idTask)) 
+        if (!$this->taskRepository->getTaskById($id)) 
         {
             $response->getBody()->write(json_encode(ResponseConfig::NO_TASK));
             return $response->withHeader('Content-Type', 'application/json')->withStatus(404);
         }
-        $result = $this->taskRepository->delete($idTask);
+        $result = $this->taskRepository->delete($id);
         if (isset($result))
         {
             $response->getBody()->write(json_encode(ResponseConfig::SUCCESSFUL_RESULT));
@@ -27,9 +28,6 @@ class TaskController
         {
             $response->getBody()->write(json_encode(ResponseConfig::SERVER_ERROR));
             return $response->withHeader('Content-Type', 'application/json')->withStatus(500);       
-        }    
+        }     
     }
 }
-
-// Notice how we register the controller using the class name?
-// PHP-DI will instantiate the class for us only when it's actually necessary

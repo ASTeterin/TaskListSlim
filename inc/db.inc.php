@@ -6,9 +6,10 @@ class Database {
     private $db_name = Config::DATABASE;
     private $username = Config::USER;
     private $password = Config::PASSWORD;
+    public $db;
 
-    public function getConnection()
+    public function __construct()
     {
-        return new MysqliDb($this->host, $this->username, $this->password, $this->db_name);
-    }  
+        $this->db = new MysqliDb($this->host, $this->username, $this->password, $this->db_name);
+    }   
 }
