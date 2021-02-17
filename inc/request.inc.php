@@ -1,7 +1,9 @@
 <?php
 
-function checkAddRequest(array $data): int 
+function checkAddRequest(array $data): ?int 
 {
+    if (!isset($data))
+        return null;
     foreach($data as $key => $value) 
     {
         if (!in_array($key, Config::COLUMN_NAMES)) 

@@ -6,12 +6,20 @@ require_once('../inc/common.inc.php');
 
 //$app = new \Slim\App();
 //$app = AppFactory::create();
-$app = \DI\Bridge\Slim\Bridge::create();
+//$app = \DI\Bridge\Slim\Bridge::create();
+//$tasController = new TaskController();
 
-$app->get('/hello', function (ServerRequest $request, Response $response) {
-    $response->getBody()->write('Hello World');
-    return $response;
-});
+$definitions = [
+    //REPOSITORIES
+    TaskRepositoryInterface::class => DI\get(TaskRepository::class)
+
+];
+
+$builder = new DI\ContainerBuilder();
+$builder->addDefinitions($definitions);
+$container = $builder->build();
+$app = \DI\Bridge\Slim\Bridge::create($container);
+
 
 $app->get('/task/complited', function (Request $request, Response $response) 
 {
@@ -51,11 +59,17 @@ $app->post('/task/add', function (Request $request, Response $response)
 
 
 
-$app->get('/task/delete/{idTask}', function ($idTask, Response $response) 
+
+$app->get('/task/delete/{id}', [TaskController::class, 'delete']);
+
+/*$app->get('/task/delete/{idTask}', function ($idTask, Response $response) 
 {
-    $database = new Database();
-    $db = $database->getConnection();
-    $taskRepository = new TaskRepository($db);
+    //$database = new Database();
+    //$db = $database->getConnection();
+    //$taskRepository = new TaskRepository($db);
+
+    $tasController = new TaskController();
+    $taskRepository = $tasController->taskRepository;
     if (!$taskRepository->getTaskById($idTask)) 
     {
         $response->getBody()->write(json_encode(ResponseConfig::NO_TASK));
@@ -73,7 +87,7 @@ $app->get('/task/delete/{idTask}', function ($idTask, Response $response)
         return $response->withHeader('Content-Type', 'application/json')->withStatus(500);       
     }    
 });
-
+*/
 $app->get('/task/complete/{id}', function (Request $request, Response $response) 
 {
     $idTask = $request->getAttribute('id');
