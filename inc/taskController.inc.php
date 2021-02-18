@@ -53,4 +53,25 @@ class TaskController
         }    
        // return (isset($result))? $response->withJson(ResponseConfig::SUCCESSFUL_RESULT, 200): $response->withJson(ResponseConfig::SERVER_ERROR, 500);
     }
+    public function complete($id, $response)
+    {
+        if (!$this->taskRepository->getTaskById($id)) 
+        {
+            $response->getBody()->write(json_encode(ResponseConfig::NO_TASK));
+            return $response->withHeader('Content-Type', 'application/json')->withStatus(404);
+        }
+        $result = $this->taskRepository->update($id, [Config::IS_DONE => Config::TASK_IS_DONE]);
+        if (isset($result))
+        {
+            $response->getBody()->write(json_encode(ResponseConfig::SUCCESSFUL_RESULT));
+            return $response->withHeader('Content-Type', 'application/json')->withStatus(200);    
+        }
+        else
+        {
+            $response->getBody()->write(json_encode(ResponseConfig::SERVER_ERROR));
+            return $response->withHeader('Content-Type', 'application/json')->withStatus(500);       
+        }     
+
+    }
+    
 }
