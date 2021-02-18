@@ -17,3 +17,18 @@ function checkAddRequest(array $data): ?int
     }
     return TaskError::ERR_NO_ERROR;   
 }
+
+function getJSONFromRequest($request)
+{
+    $contentType = $request->getHeaderLine('Content-Type');
+    if (strstr($contentType, 'application/json')) 
+    {
+        $contents = json_decode(file_get_contents('php://input'), true);
+        $request = $request->withParsedBody($contents); 
+        return $request->getParsedBody();  
+    }
+    else
+    {
+        return TaskError::ERR_BAD_REQUEST_TYPE;
+    }
+}

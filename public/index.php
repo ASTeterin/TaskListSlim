@@ -27,20 +27,7 @@ $app->get('/task/unfinished', function (Request $request, Response $response)
     return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
 });
 
-$app->post('/task/add', function (Request $request, Response $response)
-{
-    $requestData = $request->getParsedBody();
-    echo $requestData;
-    if (checkAddRequest($requestData) <> TaskError::ERR_NO_ERROR) 
-    {
-        return $response->withJson(ResponseConfig::BAD_REQUEST, 400);      
-    }
-    $database = new Database();
-    $db = $database->getConnection();
-    $taskRepository = new TaskRepository($db);
-    $result = $taskRepository->add($requestData);
-    return (isset($result))? $response->withJson(ResponseConfig::SUCCESSFUL_RESULT, 200): $response->withJson(ResponseConfig::SERVER_ERROR, 500);  
-});
+$app->post('/task/add', [TaskController::class, 'add']);
 
 $app->get('/task/delete/{id}', [TaskController::class, 'delete']);
 
