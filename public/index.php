@@ -1,31 +1,14 @@
 <?php
-use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
+
 use Slim\Factory\AppFactory;
+
 require_once('../inc/common.inc.php');
 
 $app = \DI\Bridge\Slim\Bridge::create();
 
+$app->get('/task/complited', [TaskController::class, 'completedTasks']);
 
-$app->get('/task/complited', function (Request $request, Response $response) 
-{
-    $database = new Database();
-    $db = $database->getConnection();
-    $taskRepository = new TaskRepository($db);
-    $complitedTasks = $taskRepository->getTasksByValue(Config::IS_DONE, Config::TASK_IS_DONE);
-    $response->getBody()->write(json_encode($complitedTasks));
-    return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
-});
-
-$app->get('/task/unfinished', function (Request $request, Response $response) 
-{
-    $database = new Database();
-    $db = $database->getConnection();
-    $taskRepository = new TaskRepository($db);
-    $unfinishedTasks = $taskRepository->getTasksByValue(Config::IS_DONE, Config::TASK_IS_NOT_COMPLETED);
-    $response->getBody()->write(json_encode($unfinishedTasks));
-    return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
-});
+$app->get('/task/unfinished', [TaskController::class, 'unfinishedTasks']);
 
 $app->post('/task/add', [TaskController::class, 'add']);
 

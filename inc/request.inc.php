@@ -1,4 +1,5 @@
 <?php
+use Psr\Http\Message\ServerRequestInterface as Request;
 
 function checkAddRequest(array $data): ?int 
 {
@@ -18,7 +19,7 @@ function checkAddRequest(array $data): ?int
     return TaskError::ERR_NO_ERROR;   
 }
 
-function getJSONFromRequest($request)
+function getJSONFromRequest(Request $request): ?array
 {
     $contentType = $request->getHeaderLine('Content-Type');
     if (strstr($contentType, 'application/json')) 
